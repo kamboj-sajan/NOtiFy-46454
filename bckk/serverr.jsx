@@ -26,23 +26,20 @@ const storage = multer.diskStorage({
   }
 });
 
-// File filter (optional) to only allow certain file types
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true); // Accept the file
+    cb(null, true); 
   } else {
     cb(new Error('Invalid file type, only JPEG and PNG is allowed!'), false);
   }
 };
 
-// Initialize Multer middleware
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 1024 * 1024 * 5 }, // Limit file size to 5MB
+  limits: { fileSize: 1024 * 1024 * 5 }, 
   fileFilter: fileFilter
 });
 
-// Upload document route
 app.post('/upload', upload.single('document'), async (req, res) => {
   const { title } = req.body;
   const filePath = req.file.path;
